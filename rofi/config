@@ -1,0 +1,8 @@
+configuration {
+	display-combi:     "Execute";
+	display-drun: "Applications";
+	show-icons:      true;
+	icon-theme: "Newaita";
+	sidebar-mode:    true;
+}
+rofi.theme: ~/.cache/wal/colors-rofi-dark.rasi

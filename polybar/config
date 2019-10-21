@@ -1,0 +1,503 @@
+;;;;;;;;;;;;;;;;;;;;;;
+; Made By JMMJ       ;
+;;;;;;;;;;;;;;;;;;;;;;
+
+;--- Colors ---;
+
+[colors]
+;Background Colors
+background = #e0343434
+background-alt = #ef242424
+background-unf = #cf484848
+background-mod1 = #cf141414
+
+;Foreground Colors
+foreground = #ffffff
+
+;--- Main Bar Config ---;
+
+[bar/Polybar]
+width = 100%
+height = 30
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;--- Fonts ---;
+
+font-0 = Hack:style=Bold:size=8;1
+font-1 = FontAwesome:fontformat=truetype:size=12;1
+font-2 = Iosevka Nerd Font:pixelsize=13;3
+
+tray-position = right
+;--- Module Setup ---;
+
+modules-left = i3
+modules-center = xwindow
+modules-right = WhatsAppNotif filesystem temperature backlight wired-network wireless-network volume battery powermenu
+
+;-------------;
+
+;--- Main Bar Bottom ---;
+
+[bar/PolybarBot]
+width = 100%
+height = 30
+fixed-center = true
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;--- Fonts for Bottom Bar ---;
+
+font-0 = Hack:style=Bold:size=8;1
+font-1 = FontAwesome:fontformat=truetype:size=12;1
+font-2 = "Iosevka Nerd Font:pixelsize=13;3"
+
+;--- Module Setup For Bottom Bar ---;
+
+modules-left = Firefox FileManager Whatsapp DuckDuckGo Config Email Anydesk pamac-manager
+modules-center = date wireless-speed ethernet-speed
+modules-right = spotify
+
+;--- Small Bar Config ---;
+
+[bar/PolybarSmall]
+width = 100%
+height = 30
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;--- Font For Small Bar ---;
+
+font-0 = Hack:style=Bold:size=8;1
+font-1 = FontAwesome:fontformat=truetype:size=12;1
+font-2 = "Iosevka Nerd Font:pixelsize=13;3"
+
+;--- Module Setup For Small Bar ---;
+
+modules-left = i3
+modules-center = xwindow-small
+modules-right = WhatsAppNotif temperature backlight wireless-network volume battery powermenu
+
+;--- Small Bottom Bar ---;
+
+[bar/PolybarBotSmall]
+width = 100%
+height = 30
+fixed-center = true
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;--- Font For Small Bottom Bar ---;
+
+font-0 = Hack:style=Bold:size=8;1
+font-1 = FontAwesome:fontformat=truetype:size=12;1
+font-2 = "Iosevka Nerd Font:pixelsize=13;3"
+
+;--- Modules Setup For Small Bottom Bar ---;
+
+modules-left = Firefox FileManager Whatsapp DuckDuckGo Config Email Anydesk pamac-manager
+modules-center = date
+modules-right = spotify
+
+;---------------;
+
+;--- Modules ---;
+
+;--- Weather ---;
+
+[module/weather]
+type = custom/script
+interval = 60
+format = <label>
+format-prefix = " "
+format-prefix-padding = 2
+format-padding = 1
+format-prefix-foreground = ${colors.foreground}
+exec = python ~/.config/polybar/weather.py
+
+;--- WhatsApp Notifications ---;
+
+[module/WhatsAppNotif]
+type = custom/script
+label-padding = 2
+exec = "~/.config/polybar/scripts/whatsapp.sh"
+format-foreground = ${colors.foreground}
+format-background = ${colors.background-alt}
+
+;--- KDEConnect ---;
+
+[module/kdeconnect]
+type = custom/script
+label-active-font = 3
+label-padding = 2
+exec = "~/.config/polybar/polybar-kdeconnect.sh -d"
+tail = true
+format-foreground = ${colors.foreground}
+format-background = ${colors.background-alt}
+
+;--- Spotify Python Version ---;
+
+[module/spotify]
+type = custom/script
+exec = python ~/.config/polybar/scripts/spotify.py
+label-padding = 1
+click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+double-click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+click-right = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+interval = 2
+
+;--- Spotify Shell Script Version ---;
+
+;[module/spotify]
+;type = custom/spotify
+;exec = ~/.config/polybar/spotify.sh "%artist% - %title%"
+;label-padding = 1
+;interval = 2
+
+;--- Workspaces ---;
+
+[module/i3]
+type = internal/i3
+label-unfocused-background = ${colors.background-unf}
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;2
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;5
+ws-icon-5 = 6;6
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;10
+
+label-mode = %mode%
+label-mode-padding = 3
+label-mode-background = #e60053
+
+label-focused = %icon%
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.background-alt}
+label-focused-padding = 3
+
+label-unfocused = %icon%
+label-unfocused-padding = 3
+
+label-visible = %icon%
+label-visible-padding = 3
+
+label-urgent = %icon%
+label-urgent-foreground = ${colors.foreground}
+label-urgent-background = ${colors.background-alt}
+label-urgent-padding = 3
+
+;--- Filesystem Space ---;
+
+[module/filesystem]
+type = internal/fs
+
+;Mountpoints to display
+mount-0 = /
+;Seconds between update (30 default)
+interval = 10
+
+format-mounted-foreground = ${colors.foreground}
+format-mounted-background = ${colors.background-alt}
+
+label-mounted = " %mountpoint% (%free%)"
+#label-mounted = "  %percentage_free%% (%free%)"
+label-mounted-padding = 2
+spacing = 0
+
+;--- Brigthness ---;
+[module/backlight]
+type = internal/backlight
+
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = intel_backlight
+format-background = ${colors.background-alt}
+format-warn-background = ${colors.background-alt}
+format-warn-foreground = #ff0000
+format = <label>
+format-prefix = " "
+; Available tokens:
+;   %percentage% (default)
+label = %percentage%%
+
+; Only applies if <ramp> is used
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+; Only applies if <bar> is used
+bar-width = 10
+bar-indicator = |
+bar-fill = ─
+bar-empty = ─
+;--- Temperature ---;
+
+[module/temperature]
+type = internal/temperature
+
+;Seconds between update (1 default)
+interval = 0.5
+
+;Thermal zone to use (0 default)
+thermal-zone = 0
+
+;Full path fo temperature sysfs path (/sys/class/thermal/thermal_zone0/temp)
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input
+
+warn-temperature = 86
+
+format-background = ${colors.background-alt}
+format-warn-background = ${colors.background-alt}
+format-warn-foreground = #ff0000
+
+format = <label>
+label = "%{A1:alacritty -t 'Performance monitor' -e gotop:} %temperature-c%%{A}"
+label-padding = 2
+
+format-warn = <label-warn>
+label-warn = " %temperature-c%"
+label-warn-padding = 2
+
+;--- Network Speed Ethernet---;
+
+[module/ethernet-speed]
+type = internal/network
+interface = enp3s0
+interval = .5
+
+label-connected = "W: %upspeed%, R: %downspeed%"
+label-connected-padding = 2
+
+;--- Network Speed ---;
+
+[module/wireless-speed]
+type = internal/network
+interface = wlp2s0
+interval = 1.5
+
+label-connected = "D: %downspeed%, U: %upspeed%"
+label-connected-padding = 2
+
+;--- Wireless Network ---;
+
+[module/wireless-network]
+type = internal/network
+interface = wlp2s0
+interval = 5
+click-left = 
+
+format-connected-background = ${colors.background-alt}
+format-connected = "<ramp-signal> <label-connected>"
+format-connected-padding = 2
+label-connected = "%{A1:alacritty -t 'Network configuration' -e nmtui:}%essid%%{A}"
+
+format-disconnected = "<label-disconnected>"
+format-disconnected-background = ${colors.background-unf}
+format-disconnected-foreground = ${colors.foreground}
+label-disconnected = "%{A1:alacritty -t 'Network configuration' -e nmtui:}No Wifi%{A}"
+
+ramp-signal-0 = " "
+ramp-signal-1 = " "
+ramp-signal-2 = " "
+ramp-signal-3 = " "
+ramp-signal-4 = " "
+ramp-signal-foreground = ${colors.foreground}
+
+;--- Wired Network ---;
+
+[module/wired-network]
+type = internal/network
+interface = enp3s0
+interval = 5
+
+format-connected-padding = 2
+label-connected = " %local_ip%"
+format-connected-background = ${colors.background-alt}
+
+format-disconnected =
+
+;--- Title Bar Name ---;
+
+[module/xwindow]
+type = internal/xwindow
+
+format = <label>
+format-foreground = ${colors.foreground}
+format-padding = 2
+
+label = %title%
+label-maxlen = 100
+label-empty = " "
+
+[module/xwindow-small]
+type = internal/xwindow
+
+format = <label>
+format-foreground = ${colors.foreground}
+format-padding = 2
+
+label = %title%
+label-maxlen = 40
+label-empty =
+
+;--- Calendar and Hour ---;
+
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = "%Y-%m-%d"
+
+time = " %a %b %d     %I:%M %p"
+time-alt = %H:%M:%S
+
+format-prefix-foreground = ${colors.foreground}
+
+label = %date% %time%
+
+;--- Volume ---;
+
+[module/volume]
+type = internal/pulseaudio
+;type = internal/alsa
+;Sink, to get use "pacmd list-sinks | grep -e 'name:' -e 'index:'
+sink = alsa_output.pci-0000_00_1b.0.analog-stereo
+
+format-volume = "<ramp-volume> <label-volume>"
+format-volume-background = ${colors.background-alt}
+format-volume-padding = 2
+format-muted-background = ${colors.background-unf}
+label-volume = "%{A3:exec pavucontrol:}%percentage%%{A}"
+label-muted = " muted"
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+
+;--- Battery ---;
+
+[module/battery]
+type = internal/battery
+; Use "ls -1 /sys/class/power_supply/
+battery = BAT1
+adapter = ACAD
+full-at = 55
+
+format-charging = "<animation-charging> <label-charging>"
+format-charging-foreground = ${colors.foreground}
+format-charging-background = ${colors.background-alt}
+format-charging-padding = 2
+
+format-discharging = "<ramp-capacity> <label-discharging>"
+format-discharging-foreground = ${colors.foreground}
+format-discharging-background = ${colors.background-alt}
+format-discharging-padding = 2
+
+format-full =  <label-full>
+format-full-foreground = ${colors.foreground}
+format-full-background = ${colors.background-alt}
+format-full-padding = 2
+
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-full = Full
+
+ramp-capacity-0 = ""
+ramp-capacity-1 = ""
+ramp-capacity-2 = ""
+ramp-capacity-3 = ""
+ramp-capacity-4 = ""
+
+animation-charging-0 = ""
+animation-charging-1 = ""
+animation-charging-2 = ""
+animation-charging-3 = ""
+animation-charging-4 = ""
+animation-charging-framerate = 750
+
+;--- PowerMenu (reboot/shutdown/sleep) ---;
+
+[module/powermenu]
+type = custom/text
+
+content = ""
+content-padding = 2
+content-background = ${colors.background-alt}
+click-left = rofi -show Power -modi Power:$HOME/.config/rofi/power.sh
+
+;--- Menu Apps ---;
+
+[module/Firefox]
+type = custom/text
+content = 
+content-padding = 2
+content-background = ${colors.background-alt}
+click-left = firefox &
+click-right = firefox --private-window &
+
+[module/FileManager]
+type = custom/text
+content = 
+content-padding = 2
+content-marging = 2
+click-left = /usr/bin/pcmanfm &
+content-background = ${colors.background-alt}
+
+[module/Whatsapp]
+type = custom/text
+content = 
+content-padding = 2
+click-left = whatsapp-nativefier & 
+content-background = ${colors.background-alt}
+
+[module/DuckDuckGo]
+type = custom/text
+content =  
+content-padding = 2
+click-left = firefox reddit.com &
+content-background = ${colors.background-alt}
+
+[module/Config]
+type = custom/text
+content = 
+content-padding = 2
+click-left = systemsettings5 &
+
+[module/pamac-manager]
+type = custom/script
+exec = pamac checkupdates -q | wc -l
+interval = 1000
+label = %output%
+tail = true
+click-right = pamac-manager &
+click-left = pamac-manager &
+format-prefix = " "
+
+
+[module/Email]
+type = custom/text
+content = "" 
+content-padding = 2
+click-left = thunderbird &
+content-background = ${colors.background-alt}
+
+[module/Anydesk]
+type = custom/text
+content =  
+content-padding = 2
+click-left = anydesk &
+content-background = ${colors.background-alt}
+
+; vim:ft=dosini
+
