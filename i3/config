@@ -10,7 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-exec --no-startup-id xrandr --output HDMI1 --mode "2560x1080_60.00"
+exec_always --no-startup-id xrandr --output HDMI1 --mode "2560x1080_60.00"
 
 # Set background image
 #exec_always feh --bg-scale /home/chema/Imágenes/Tsunami_by_hokusai_19th_century.jpg
@@ -21,7 +21,7 @@ exec_always ~/.config/polybar/launch.sh
 exec_always compton --config ~/.config/compton/config
 
 # Notifications (Dunst)
-exec --no-startup-id /usr/bin/dunst -config ~/.config/dunst/dunstrc
+exec_always --no-startup-id ~/.config/dunst/reload
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -40,15 +40,18 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volumecontrol.sh up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volumecontrol.sh down
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volumecontrol.sh mute
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec xbacklight -inc 20; # increase screen brightness
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 20; # decrease screen brightness
-bindsym XF86MonBrightnessUp exec xbacklight -inc 5
-bindsym XF86MonBrightnessDown exec xbacklight -dec 5
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brigthnesscontrol.sh up
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brigthnesscontrol.sh down
 
 # Power
 bindsym XF86PowerOff exec rofi -show Power -modi Power:$HOME/.config/rofi/power.sh
@@ -63,7 +66,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+e exec pcmanfm
 
 # lock the screen
-bindsym $mod+l exec ~/.config/i3/scripts/lock_screen.sh
+bindsym $mod+l exec blurlock
 
 # kill focused window
 bindsym $mod+Shift+q kill
