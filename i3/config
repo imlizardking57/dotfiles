@@ -10,7 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-exec_always --no-startup-id xrandr --output HDMI1 --mode "2560x1080_60.00"
+exec_always --no-startup-id ~/.config/i3/scripts/setResolutionLG.sh
 
 # Set background image
 #exec_always feh --bg-scale /home/chema/Imágenes/Tsunami_by_hokusai_19th_century.jpg
@@ -19,10 +19,17 @@ exec_always feh --bg-scale /home/chema/Imágenes/MilleniumFalcon.jpg
 exec_always ~/.config/polybar/launch.sh
 # Start Comptom
 exec_always compton --config ~/.config/compton/config
+exec --no-startup-id xautolock -time 1 -locker betterlockscreen -l blur
 
 # Notifications (Dunst)
 exec_always --no-startup-id ~/.config/dunst/reload
+
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id nm-applet
+exec --no-startup-id pamac-tray
+exec --no-startup-id clipit
+exec --no-startup-id blueman-applet
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 12
@@ -33,10 +40,6 @@ font pango:monospace 12
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -66,13 +69,16 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+e exec pcmanfm
 
 # lock the screen
-bindsym $mod+l exec blurlock
+bindsym $mod+l exec --no-startup-id betterlockscreen -l blur
+
+# lock the screen
+bindsym $mod+b exec firefox
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3 -font 'Noto Sans 10' 
+bindsym $mod+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3 -font 'Noto Sans 10' 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
