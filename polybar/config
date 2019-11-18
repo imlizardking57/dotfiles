@@ -30,13 +30,16 @@ font-1 = FontAwesome:fontformat=truetype:size=12;1
 font-2 = Iosevka Nerd Font:pixelsize=13;3
 
 tray-position = right
+tray-padding = 1
 ;--- Module Setup ---;
 
-modules-left = i3
+modules-left = powermenu i3 spotify
 modules-center = xwindow
-modules-right = WhatsAppNotif filesystem temperature backlight wired-network wireless-network volume battery powermenu
+modules-right = WhatsAppNotif volume backlight date
 
 ;-------------;
+
+separator = %{F#RRGGBB}|%{F-}
 
 ;--- Main Bar Bottom ---;
 
@@ -56,51 +59,8 @@ font-2 = "Iosevka Nerd Font:pixelsize=13;3"
 
 ;--- Module Setup For Bottom Bar ---;
 
-modules-left = Firefox FileManager Whatsapp DuckDuckGo Config Email Anydesk pamac-manager
-modules-center = date wireless-speed ethernet-speed
-modules-right = spotify
-
-;--- Small Bar Config ---;
-
-[bar/PolybarSmall]
-width = 100%
-height = 30
-fixed-center = false
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-;--- Font For Small Bar ---;
-
-font-0 = Hack:style=Bold:size=8;1
-font-1 = FontAwesome:fontformat=truetype:size=12;1
-font-2 = "Iosevka Nerd Font:pixelsize=13;3"
-
-;--- Module Setup For Small Bar ---;
-
-modules-left = i3
-modules-center = xwindow-small
-modules-right = WhatsAppNotif temperature backlight wireless-network volume battery powermenu
-
-;--- Small Bottom Bar ---;
-
-[bar/PolybarBotSmall]
-width = 100%
-height = 30
-fixed-center = true
-bottom = true
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-;--- Font For Small Bottom Bar ---;
-
-font-0 = Hack:style=Bold:size=8;1
-font-1 = FontAwesome:fontformat=truetype:size=12;1
-font-2 = "Iosevka Nerd Font:pixelsize=13;3"
-
-;--- Modules Setup For Small Bottom Bar ---;
-
-modules-left = Firefox FileManager Whatsapp DuckDuckGo Config Email Anydesk pamac-manager
-modules-center = date
+modules-left = Firefox FileManager Whatsapp Config Email Anydesk pamac-manager
+modules-center = wireless-speed ethernet-speed
 modules-right = spotify
 
 ;---------------;
@@ -149,14 +109,7 @@ click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org
 double-click-left = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 click-right = "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 interval = 2
-
-;--- Spotify Shell Script Version ---;
-
-;[module/spotify]
-;type = custom/spotify
-;exec = ~/.config/polybar/spotify.sh "%artist% - %title%"
-;label-padding = 1
-;interval = 2
+content-background = ${colors.background-alt}
 
 ;--- Workspaces ---;
 
@@ -364,8 +317,10 @@ time = " %a %b %d     %I:%M %p"
 time-alt = %H:%M:%S
 
 format-prefix-foreground = ${colors.foreground}
-
 label = %date% %time%
+content-background = ${colors.background-alt}
+format-foreground = ${colors.foreground}
+format-background = ${colors.background-alt}
 
 ;--- Volume ---;
 
@@ -379,7 +334,7 @@ format-volume = "<ramp-volume> <label-volume>"
 format-volume-background = ${colors.background-alt}
 format-volume-padding = 2
 format-muted-background = ${colors.background-unf}
-label-volume = "%{A3:exec pavucontrol:}%percentage%%{A}"
+label-volume = "%{A3:exec pavucontrol &:}%percentage%%{A}"
 label-muted = " muted"
 
 ramp-volume-0 = 
@@ -392,7 +347,7 @@ type = internal/battery
 ; Use "ls -1 /sys/class/power_supply/
 battery = BAT1
 adapter = ACAD
-full-at = 55
+full-at = 98 
 
 format-charging = "<animation-charging> <label-charging>"
 format-charging-foreground = ${colors.foreground}
@@ -409,9 +364,9 @@ format-full-foreground = ${colors.foreground}
 format-full-background = ${colors.background-alt}
 format-full-padding = 2
 
-label-charging = %percentage%%
-label-discharging = %percentage%%
-label-full = Full
+label-charging = "%{A1:xfce4-power-manager -c:}%percentage%%%{A}"
+label-discharging = "%{A1:xfce4-power-manager -c:}%percentage%%%{A}"
+label-full= "%{A1:xfce4-power-manager -c:}Full%{A}"
 
 ramp-capacity-0 = ""
 ramp-capacity-1 = ""
@@ -461,29 +416,23 @@ content-padding = 2
 click-left = whatsapp-nativefier & 
 content-background = ${colors.background-alt}
 
-[module/DuckDuckGo]
-type = custom/text
-content =  
-content-padding = 2
-click-left = firefox reddit.com &
-content-background = ${colors.background-alt}
-
 [module/Config]
 type = custom/text
 content = 
 content-padding = 2
 click-left = systemsettings5 &
+content-background = ${colors.background-alt}
 
 [module/pamac-manager]
 type = custom/script
 exec = pamac checkupdates -q | wc -l
 interval = 1000
 label = %output%
-tail = true
+;tail = true
 click-right = pamac-manager &
 click-left = pamac-manager &
 format-prefix = " "
-
+content-background = ${colors.background-alt}
 
 [module/Email]
 type = custom/text
@@ -494,7 +443,7 @@ content-background = ${colors.background-alt}
 
 [module/Anydesk]
 type = custom/text
-content =  
+content = " "
 content-padding = 2
 click-left = anydesk &
 content-background = ${colors.background-alt}
